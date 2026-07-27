@@ -1,0 +1,476 @@
+/*==================================================
+    ROOT VARIABLES
+==================================================*/
+
+:root {
+  /* Background */
+  --bg: #f5f7fc;
+  --surface: rgba(255, 255, 255, 0.6);
+
+  /* Text */
+  --text: #182230;
+  --text-light: #667085;
+
+  /* Border */
+  --border: rgba(15, 23, 42, 0.06);
+
+  /* Radius */
+  --radius-xl: 24px;
+  --radius-lg: 18px;
+  --radius-md: 14px;
+
+  /* Shadow */
+  --shadow-sm: 0 10px 30px rgba(15, 23, 42, 0.05);
+  --shadow-md: 0 20px 45px rgba(15, 23, 42, 0.08);
+
+  /* Transition */
+  --transition: 0.3s ease;
+
+  /* Subject Colours */
+
+  --finance: #4f7cff;
+  --economics: #27b36a;
+  --math: #dca321;
+  --english: #8b5cf6;
+  --history: #f08b37;
+}
+
+/*==================================================
+    DARK MODE
+==================================================*/
+
+body.dark {
+  --bg: #111827;
+
+  --surface: #182233;
+
+  --text: #f8fafc;
+
+  --text-light: #c5d0e0;
+
+  --border: rgba(255, 255, 255, 0.08);
+
+  --shadow-sm: 0 10px 30px rgba(0, 0, 0, 0.25);
+
+  --shadow-md: 0 22px 50px rgba(0, 0, 0, 0.35);
+}
+
+/*==================================================
+    RESET
+==================================================*/
+
+* {
+  margin: 0;
+
+  padding: 0;
+
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Inter", sans-serif;
+
+  color: var(--text);
+
+  min-height: 100vh;
+
+  overflow-x: hidden;
+
+  background: linear-gradient(135deg, #e6edf8 0%, #edf2f8 45%, #e4edf7 100%);
+
+  transition:
+    background 0.35s,
+    color 0.35s;
+}
+
+body.dark {
+  background: linear-gradient(135deg, #162133 0%, #1b2638 50%, #212d43 100%);
+}
+
+/*==================================================
+    CONTAINER
+==================================================*/
+
+.container {
+  width: min(1540px, 95%);
+
+  margin: auto;
+
+  padding: 24px 0 18px;
+}
+
+/*==================================================
+    HEADER
+==================================================*/
+
+.header {
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  gap: 30px;
+
+  margin-bottom: 26px;
+}
+
+.header h1 {
+  font-size: clamp(2rem, 3vw, 2.8rem);
+
+  font-weight: 800;
+
+  letter-spacing: -1px;
+
+  margin-bottom: 6px;
+}
+
+.semester {
+  font-size: 1rem;
+
+  color: var(--text-light);
+
+  font-weight: 500;
+}
+
+/*==================================================
+    THEME BUTTON
+==================================================*/
+
+.theme-button {
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+  padding: 14px 22px;
+
+  border: none;
+
+  border-radius: 999px;
+
+  cursor: pointer;
+
+  background: var(--surface);
+
+  color: var(--text);
+
+  backdrop-filter: blur(16px);
+
+  border: 1px solid var(--border);
+
+  box-shadow: var(--shadow-sm);
+
+  transition: var(--transition);
+}
+
+.theme-button:hover {
+  transform: translateY(-3px);
+
+  box-shadow: var(--shadow-md);
+}
+
+.theme-icon {
+  width: 20px;
+
+  height: 20px;
+}
+
+.sun-icon {
+  display: none;
+}
+
+.theme-text {
+  font-weight: 600;
+}
+
+/*==================================================
+    ROUTINE GRID
+==================================================*/
+
+.routine-grid {
+  display: grid;
+
+  grid-template-columns: repeat(5, 1fr);
+
+  gap: 18px;
+}
+
+/*==================================================
+    DAY COLUMN
+==================================================*/
+
+.day-column {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 14px;
+}
+
+.day-header {
+  text-align: center;
+
+  padding: 14px;
+
+  border-radius: var(--radius-xl);
+
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.65),
+    rgba(255, 255, 255, 0.45)
+  );
+
+  border: 1px solid rgba(255, 255, 255, 0.35);
+
+  backdrop-filter: blur(18px);
+
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+}
+
+body.dark .day-header {
+  background: linear-gradient(
+    135deg,
+    rgba(34, 48, 73, 0.9),
+    rgba(24, 35, 53, 0.9)
+  );
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.day-header h2 {
+  font-size: 1.08rem;
+
+  font-weight: 700;
+}
+
+.day-cards {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 14px;
+}
+/*==================================================
+    CLASS CARD
+==================================================*/
+
+.class-card {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 14px;
+
+  padding: 20px;
+
+  border-radius: var(--radius-xl);
+
+  backdrop-filter: blur(18px);
+
+  border: none;
+
+  box-shadow: var(--shadow-sm);
+
+  transition: var(--transition);
+}
+
+.class-card:hover {
+  transform: translateY(-6px);
+
+  box-shadow: var(--shadow-md);
+}
+
+/*==================================================
+    SUBJECT BACKGROUNDS
+==================================================*/
+
+.finance {
+  background: linear-gradient(135deg, #d9ebff 0%, #eef6ff 100%);
+}
+
+.economics {
+  background: linear-gradient(135deg, #d8f8e5 0%, #f2fff7 100%);
+}
+
+.mathematics {
+  background: linear-gradient(135deg, #ffe3ea 0%, #fff4f7 100%);
+}
+
+.english {
+  background: linear-gradient(135deg, #ebe3ff 0%, #f7f4ff 100%);
+}
+
+.history {
+  background: linear-gradient(135deg, #e8e1d2 0%, #f8f4ea 100%);
+}
+
+body.dark .finance {
+  background: linear-gradient(135deg, #23446e, #1c3657);
+}
+
+body.dark .economics {
+  background: linear-gradient(135deg, #1f5a43, #174635);
+}
+
+body.dark .mathematics {
+  background: linear-gradient(135deg, #6b2943, #552034);
+}
+
+body.dark .english {
+  background: linear-gradient(135deg, #48357b, #382961);
+}
+
+body.dark .history {
+  background: linear-gradient(135deg, #6d5228, #56401f);
+}
+
+/*==================================================
+    TIME
+==================================================*/
+
+.card-time {
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  font-size: 0.92rem;
+
+  font-weight: 600;
+
+  color: var(--text-light);
+}
+
+/*==================================================
+    SUBJECT
+==================================================*/
+
+.subject {
+  font-size: 1.08rem;
+
+  font-weight: 700;
+
+  line-height: 1.3;
+}
+
+/*==================================================
+    INFORMATION
+==================================================*/
+
+.card-info {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 12px;
+}
+
+.info-row {
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  color: var(--text-light);
+
+  font-size: 0.9rem;
+
+  font-weight: 500;
+}
+
+/*==================================================
+    SVG ICONS
+==================================================*/
+
+.icon {
+  width: 18px;
+
+  height: 18px;
+
+  flex-shrink: 0;
+
+  stroke-width: 2;
+
+  color: var(--text-light);
+}
+
+/*==================================================
+    TABLET
+==================================================*/
+
+@media (max-width: 1100px) {
+  .routine-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/*==================================================
+    MOBILE
+==================================================*/
+
+@media (max-width: 768px) {
+  .container {
+    width: 94%;
+
+    padding: 22px 0 40px;
+  }
+
+  .header {
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    gap: 18px;
+  }
+
+  .theme-button {
+    width: 100%;
+
+    justify-content: center;
+  }
+
+  .routine-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/*==================================================
+    PRINT
+==================================================*/
+
+@media print {
+  body {
+    background: #fff;
+  }
+
+  .theme-button {
+    display: none;
+  }
+
+  .container {
+    width: 100%;
+
+    padding: 0;
+  }
+
+  .routine-grid {
+    grid-template-columns: repeat(5, 1fr);
+  }
+
+  .day-header,
+  .class-card {
+    background: #fff !important;
+
+    box-shadow: none;
+
+    border: 1px solid #ddd;
+  }
+}
