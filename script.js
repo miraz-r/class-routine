@@ -45,116 +45,111 @@ const courses = {
 
 const classRoutine = [
   // Sunday
-
   {
     day: "Sunday",
-    time: "11:10 AM - 12:00 PM",
+    time: "11:01 AM - 12:00 PM",
     course: "finance",
     room: "604",
   },
 
   {
     day: "Sunday",
-    time: "1:10 PM - 2:00 PM",
+    time: "1:01 PM - 2:00 PM",
     course: "mathematics",
     room: "614",
   },
 
   {
     day: "Sunday",
-    time: "2:10 PM - 3:00 PM",
+    time: "2:01 PM - 3:00 PM",
     course: "english",
     room: "614",
   },
 
   // Monday
-
   {
     day: "Monday",
-    time: "10:10 AM - 11:00 AM",
+    time: "10:01 AM - 11:00 AM",
     course: "history",
     room: "B-203",
   },
 
   {
     day: "Monday",
-    time: "12:10 PM - 1:00 PM",
+    time: "12:01 PM - 1:00 PM",
     course: "mathematics",
     room: "614",
   },
 
   {
     day: "Monday",
-    time: "1:10 PM - 2:00 PM",
+    time: "1:01 PM - 2:00 PM",
     course: "economics",
     room: "614",
   },
 
   // Tuesday
-
   {
     day: "Tuesday",
-    time: "11:10 AM - 12:00 PM",
+    time: "11:01 AM - 12:00 PM",
     course: "economics",
     room: "601",
   },
 
   {
     day: "Tuesday",
-    time: "12:10 PM - 1:00 PM",
+    time: "12:01 PM - 1:00 PM",
     course: "finance",
     room: "614",
   },
 
   {
     day: "Tuesday",
-    time: "1:10 PM - 2:00 PM",
+    time: "1:01 PM - 2:00 PM",
     course: "english",
     room: "614",
   },
 
   // Wednesday
-
   {
     day: "Wednesday",
-    time: "10:10 AM - 11:00 AM",
+    time: "10:01 AM - 11:00 AM",
     course: "history",
     room: "B-203",
   },
 
   {
     day: "Wednesday",
-    time: "12:10 PM - 1:00 PM",
+    time: "12:01 PM - 1:00 PM",
     course: "mathematics",
     room: "614",
   },
 
   {
     day: "Wednesday",
-    time: "1:10 PM - 2:00 PM",
+    time: "1:01 PM - 2:00 PM",
     course: "english",
     room: "614",
   },
 
   // Thursday
-
   {
     day: "Thursday",
-    time: "10:10 AM - 11:00 AM",
+    time: "10:01 AM - 11:00 AM",
     course: "history",
     room: "B-203",
   },
 
   {
     day: "Thursday",
-    time: "12:10 PM - 1:00 PM",
+    time: "12:01 PM - 1:00 PM",
     course: "finance",
     room: "614",
   },
 
   {
     day: "Thursday",
-    time: "1:10 PM - 2:00 PM",
+    time: "1:01 PM - 2:00 PM",
     course: "economics",
     room: "613",
   },
@@ -283,4 +278,3 @@ themeButton.addEventListener("click", () => {
 ==================================================*/
 
 createRoutineCards();
-  
