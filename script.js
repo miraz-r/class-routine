@@ -169,6 +169,8 @@ const dayContainers = {
   Thursday: document.getElementById("Thursday"),
 };
 
+const dayPills = document.querySelectorAll(".day-pill");
+
 /*==================================================
     SVG ICONS
 ==================================================*/
@@ -278,3 +280,55 @@ themeButton.addEventListener("click", () => {
 ==================================================*/
 
 createRoutineCards();
+
+/*==================================================
+    MOBILE DAY PILLS
+==================================================*/
+
+function updateMobileView(day) {
+  if (window.innerWidth > 768) return;
+
+  document.querySelectorAll(".day-column").forEach((column) => {
+    const heading = column.querySelector("h2").textContent;
+
+    column.style.display = heading === day ? "flex" : "none";
+  });
+
+  dayPills.forEach((pill) => {
+    pill.classList.toggle("active", pill.dataset.day === day);
+  });
+}
+
+function getDefaultDay() {
+  const weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday"];
+
+  const today = new Date().toLocaleDateString("en-US", {
+    weekday: "long",
+  });
+
+  return weekdays.includes(today) ? today : "Sunday";
+}
+
+const defaultDay = getDefaultDay();
+
+updateMobileView(defaultDay);
+
+dayPills.forEach((pill) => {
+  if (pill.dataset.day === defaultDay) {
+    pill.classList.add("active");
+  }
+
+  pill.addEventListener("click", () => {
+    updateMobileView(pill.dataset.day);
+  });
+});
+
+window.addEventListener("resize", () => {
+  if (window.innerWidth <= 768) {
+    updateMobileView(document.querySelector(".day-pill.active").dataset.day);
+  } else {
+    document.querySelectorAll(".day-column").forEach((column) => {
+      column.style.display = "flex";
+    });
+  }
+});
