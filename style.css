@@ -112,11 +112,15 @@ body.dark {
 
   justify-content: space-between;
 
-  align-items: center;
+  align-items: flex-start;
 
   gap: 30px;
 
   margin-bottom: 26px;
+}
+
+.theme-button {
+  margin-top: 4px;
 }
 
 .header h1 {
@@ -474,13 +478,26 @@ body.dark .history {
   }
 
   .header {
-    align-items: center;
+    align-items: flex-start;
+
+    justify-content: space-between;
 
     margin-bottom: 14px;
   }
 
   .header-left {
     width: 100%;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+  }
+
+  .header-left h1,
+  .header-left .semester {
+    align-self: flex-start;
   }
 
   .header h1 {
@@ -497,15 +514,23 @@ body.dark .history {
   }
 
   .theme-button {
-    width: 48px;
+    width: 46px;
 
-    height: 48px;
+    height: 46px;
 
     padding: 0;
 
     border-radius: 50%;
 
+    display: flex;
+
+    align-items: center;
+
     justify-content: center;
+
+    align-self: flex-start;
+
+    margin-top: 2px;
 
     flex-shrink: 0;
   }
@@ -555,6 +580,294 @@ body.dark .history {
   .routine-grid {
     grid-template-columns: 1fr;
   }
+}
+
+/*==================================================
+    CALENDAR
+==================================================*/
+
+.calendar-button {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 10px;
+
+  width: fit-content;
+
+  margin: 18px auto;
+
+  padding: 12px 18px;
+
+  border: 1px solid var(--border);
+
+  border-radius: 999px;
+
+  background: var(--surface);
+
+  color: var(--text);
+
+  backdrop-filter: blur(18px);
+
+  box-shadow: var(--shadow-sm);
+
+  cursor: pointer;
+
+  font: inherit;
+
+  transition: var(--transition);
+}
+
+.calendar-button:hover {
+  transform: translateY(-2px);
+
+  box-shadow: var(--shadow-md);
+}
+
+.calendar-icon {
+  width: 18px;
+
+  height: 18px;
+}
+
+.calendar-modal {
+  position: fixed;
+
+  inset: 0;
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  background: rgba(0, 0, 0, 0.35);
+
+  backdrop-filter: blur(10px);
+
+  opacity: 0;
+
+  visibility: hidden;
+
+  transition: 0.3s;
+
+  z-index: 1000;
+}
+
+.calendar-modal.show {
+  opacity: 1;
+
+  visibility: visible;
+}
+
+.calendar-box {
+  width: min(420px, 92vw);
+
+  background: var(--surface);
+
+  border: 1px solid var(--border);
+
+  border-radius: 28px;
+
+  padding: 24px;
+
+  backdrop-filter: blur(24px);
+
+  box-shadow: var(--shadow-md);
+}
+
+.calendar-top {
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  margin-bottom: 22px;
+}
+
+.calendar-top h3 {
+  font-size: 1.2rem;
+
+  font-weight: 700;
+}
+
+.calendar-top button {
+  width: 40px;
+
+  height: 40px;
+
+  border: none;
+
+  border-radius: 50%;
+
+  background: transparent;
+
+  color: var(--text);
+
+  cursor: pointer;
+
+  transition: 0.25s;
+}
+
+.calendar-top button:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.calendar-weekdays {
+  display: grid;
+
+  grid-template-columns: repeat(7, 1fr);
+
+  margin-bottom: 10px;
+
+  text-align: center;
+
+  font-size: 0.85rem;
+
+  font-weight: 600;
+
+  color: var(--text-light);
+}
+
+.calendar-days {
+  display: grid;
+
+  grid-template-columns: repeat(7, 1fr);
+
+  gap: 8px;
+}
+
+.calendar-day {
+  aspect-ratio: 1;
+
+  border: none;
+
+  border-radius: 14px;
+
+  background: transparent;
+
+  color: var(--text);
+
+  font: inherit;
+
+  cursor: pointer;
+
+  transition: 0.25s;
+}
+
+.calendar-day:hover {
+  background: rgba(79, 124, 255, 0.15);
+}
+
+.calendar-day.today {
+  border: 2px solid var(--finance);
+}
+
+.calendar-day.selected {
+  background: linear-gradient(135deg, var(--finance), #6d9dff);
+
+  color: white;
+}
+
+.calendar-day.empty {
+  visibility: hidden;
+}
+
+@media (max-width: 768px) {
+  .calendar-button {
+    width: fit-content;
+
+    justify-content: center;
+
+    margin: 14px auto 10px;
+  }
+
+  .calendar-box {
+    width: 95%;
+
+    padding: 20px;
+  }
+
+  .empty-card {
+    padding: 28px 22px;
+  }
+
+  .empty-card h2 {
+    font-size: 1.45rem;
+  }
+}
+
+/*==================================================
+    EMPTY STATE
+==================================================*/
+
+.empty-state {
+  display: none;
+
+  justify-content: center;
+
+  align-items: center;
+
+  margin-top: 12px;
+}
+
+.empty-state.show {
+  display: flex;
+}
+
+.empty-card {
+  width: min(520px, 100%);
+
+  padding: 36px 28px;
+
+  text-align: center;
+
+  border-radius: var(--radius-xl);
+
+  background: var(--surface);
+
+  border: 1px solid var(--border);
+
+  backdrop-filter: blur(20px);
+
+  box-shadow: var(--shadow-md);
+}
+
+.empty-icon {
+  width: 56px;
+
+  height: 56px;
+
+  color: var(--finance);
+
+  margin-bottom: 18px;
+}
+
+.empty-card h2 {
+  font-size: 1.7rem;
+
+  font-weight: 700;
+
+  margin-bottom: 12px;
+}
+
+.empty-card p {
+  font-size: 1rem;
+
+  color: var(--text-light);
+
+  margin-bottom: 10px;
+
+  white-space: pre-line;
+}
+
+.empty-card span {
+  font-size: 0.95rem;
+
+  color: var(--text-light);
 }
 
 /*==================================================

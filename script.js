@@ -1,5 +1,11 @@
 /*==================================================
-    COURSES
+    UNIVERSITY CLASS ROUTINE
+    PART 1
+    DATA + DOM + STATE + HELPERS
+==================================================*/
+
+/*==================================================
+    COURSE DATA
 ==================================================*/
 
 const courses = {
@@ -43,7 +49,7 @@ const courses = {
     CLASS ROUTINE
 ==================================================*/
 
-const classRoutine = [
+const routine = [
   // Sunday
   {
     day: "Sunday",
@@ -51,14 +57,12 @@ const classRoutine = [
     course: "finance",
     room: "604",
   },
-
   {
     day: "Sunday",
     time: "1:01 PM - 2:00 PM",
     course: "mathematics",
     room: "614",
   },
-
   {
     day: "Sunday",
     time: "2:01 PM - 3:00 PM",
@@ -73,14 +77,12 @@ const classRoutine = [
     course: "history",
     room: "B-203",
   },
-
   {
     day: "Monday",
     time: "12:01 PM - 1:00 PM",
     course: "mathematics",
     room: "614",
   },
-
   {
     day: "Monday",
     time: "1:01 PM - 2:00 PM",
@@ -95,14 +97,12 @@ const classRoutine = [
     course: "economics",
     room: "601",
   },
-
   {
     day: "Tuesday",
     time: "12:01 PM - 1:00 PM",
     course: "finance",
     room: "614",
   },
-
   {
     day: "Tuesday",
     time: "1:01 PM - 2:00 PM",
@@ -117,14 +117,12 @@ const classRoutine = [
     course: "history",
     room: "B-203",
   },
-
   {
     day: "Wednesday",
     time: "12:01 PM - 1:00 PM",
     course: "mathematics",
     room: "614",
   },
-
   {
     day: "Wednesday",
     time: "1:01 PM - 2:00 PM",
@@ -139,14 +137,12 @@ const classRoutine = [
     course: "history",
     room: "B-203",
   },
-
   {
     day: "Thursday",
     time: "12:01 PM - 1:00 PM",
     course: "finance",
     room: "614",
   },
-
   {
     day: "Thursday",
     time: "1:01 PM - 2:00 PM",
@@ -156,10 +152,74 @@ const classRoutine = [
 ];
 
 /*==================================================
-    TEMPLATE & DAY CONTAINERS
+    HOLIDAYS
 ==================================================*/
 
-const cardTemplate = document.getElementById("classCardTemplate");
+const holidays = [
+  {
+    month: 2,
+    day: 21,
+    name: "International Mother Language Day",
+  },
+  {
+    month: 3,
+    day: 26,
+    name: "Independence Day",
+  },
+  {
+    month: 4,
+    day: 14,
+    name: "Pohela Boishakh",
+  },
+  {
+    month: 5,
+    day: 1,
+    name: "May Day",
+  },
+  {
+    month: 8,
+    day: 5,
+    name: "July Mass Uprising Day",
+  },
+  {
+    month: 12,
+    day: 16,
+    name: "Victory Day",
+  },
+  {
+    month: 12,
+    day: 25,
+    name: "Christmas Day",
+  },
+];
+
+/*==================================================
+    DOM ELEMENTS
+==================================================*/
+
+const template = document.getElementById("classCardTemplate");
+
+const routineGrid = document.querySelector(".routine-grid");
+
+const emptyState = document.getElementById("emptyState");
+const emptyDate = document.getElementById("emptyDate");
+
+const selectedDateText = document.getElementById("selectedDate");
+
+const calendarButton = document.getElementById("calendarButton");
+const calendarModal = document.getElementById("calendarModal");
+
+const monthYear = document.getElementById("monthYear");
+const calendarDays = document.getElementById("calendarDays");
+
+const prevMonthButton = document.getElementById("prevMonth");
+const nextMonthButton = document.getElementById("nextMonth");
+
+const themeButton = document.getElementById("themeToggle");
+const moonIcon = document.querySelector(".moon-icon");
+const sunIcon = document.querySelector(".sun-icon");
+
+const dayPills = document.querySelectorAll(".day-pill");
 
 const dayContainers = {
   Sunday: document.getElementById("Sunday"),
@@ -169,166 +229,433 @@ const dayContainers = {
   Thursday: document.getElementById("Thursday"),
 };
 
-const dayPills = document.querySelectorAll(".day-pill");
-
 /*==================================================
-    SVG ICONS
+    APP STATE
 ==================================================*/
 
-const icons = {
-  book: `
-    <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-      <path d="M4 19.5A2.5 2.5 0 016.5 17H20"/>
-      <path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5V4.5A2.5 2.5 0 016.5 2z"/>
-    </svg>
-  `,
+const state = {
+  selectedDate: new Date(),
 
-  teacher: `
-    <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-      <path d="M22 10v6M2 10v6"/>
-      <path d="M12 3L2 8l10 5 10-5-10-5z"/>
-      <path d="M6 12v5c0 1.5 3 3 6 3s6-1.5 6-3v-5"/>
-    </svg>
-  `,
+  calendarMonth: new Date().getMonth(),
 
-  room: `
-    <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-      <path d="M12 21s-6-5.3-6-11a6 6 0 1112 0c0 5.7-6 11-6 11z"/>
-      <circle cx="12" cy="10" r="2"/>
-    </svg>
-  `,
+  calendarYear: new Date().getFullYear(),
 };
+
 /*==================================================
-    CREATE ROUTINE CARDS
+    HELPERS
 ==================================================*/
 
-function createRoutineCards() {
-  classRoutine.forEach((classInfo) => {
-    const course = courses[classInfo.course];
+const weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday"];
 
-    const card = cardTemplate.content.cloneNode(true);
+function formatDate(date) {
+  return date.toLocaleDateString("en-GB", {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
+}
 
-    const article = card.querySelector(".class-card");
+function getWeekday(date) {
+  return date.toLocaleDateString("en-US", {
+    weekday: "long",
+  });
+}
 
-    // Subject colour
-    article.classList.add(course.color);
+function getHoliday(date) {
+  return holidays.find(
+    (holiday) =>
+      holiday.month === date.getMonth() + 1 && holiday.day === date.getDate(),
+  );
+}
+function isWeekend(date) {
+  const day = date.getDay();
 
-    // Fill data
-    card.querySelector(".time").textContent = classInfo.time;
-    card.querySelector(".subject").textContent = course.subject;
-    card.querySelector(".course-code").textContent = course.courseCode;
-    card.querySelector(".teacher").textContent = course.teacher;
-    card.querySelector(".room").textContent = classInfo.room;
+  return day === 5 || day === 6;
+}
+/*==================================================
+    ROUTINE CARD RENDERING
+==================================================*/
 
-    // Add to correct day
-    dayContainers[classInfo.day].appendChild(card);
+function createClassCard(classInfo) {
+  const course = courses[classInfo.course];
+
+  const card = template.content.cloneNode(true);
+
+  const article = card.querySelector(".class-card");
+
+  article.classList.add(course.color);
+
+  card.querySelector(".time").textContent = classInfo.time;
+  card.querySelector(".subject").textContent = course.subject;
+  card.querySelector(".course-code").textContent = course.courseCode;
+  card.querySelector(".teacher").textContent = course.teacher;
+  card.querySelector(".room").textContent = classInfo.room;
+
+  return card;
+}
+
+function clearRoutine() {
+  Object.values(dayContainers).forEach((container) => {
+    container.innerHTML = "";
+  });
+}
+
+function renderRoutine() {
+  clearRoutine();
+
+  routine.forEach((classInfo) => {
+    dayContainers[classInfo.day].appendChild(createClassCard(classInfo));
   });
 }
 
 /*==================================================
-    DARK MODE
+    EMPTY STATE
 ==================================================*/
 
-const themeButton = document.getElementById("themeToggle");
+function showEmptyState(message, isHoliday = false) {
+  routineGrid.style.display = "none";
 
-const themeText = document.querySelector(".theme-text");
+  emptyState.classList.add("show");
 
-const moonIcon = document.querySelector(".moon-icon");
+  emptyDate.textContent = message;
 
-const sunIcon = document.querySelector(".sun-icon");
+  const subtitle = emptyState.querySelector("span");
 
-function updateThemeUI(isDark) {
-  if (isDark) {
-    document.body.classList.add("dark");
-
-    moonIcon.style.display = "none";
-    sunIcon.style.display = "block";
-
-    themeText.textContent = "Light Mode";
+  if (isHoliday) {
+    subtitle.style.display = "none";
   } else {
-    document.body.classList.remove("dark");
-
-    moonIcon.style.display = "block";
-    sunIcon.style.display = "none";
-
-    themeText.textContent = "Dark Mode";
+    subtitle.style.display = "inline";
+    subtitle.textContent = "Enjoy your weekend.";
   }
 }
+function hideEmptyState() {
+  routineGrid.style.display = "grid";
 
-// Load saved theme
-
-const savedTheme = localStorage.getItem("theme");
-
-if (savedTheme === "dark") {
-  updateThemeUI(true);
-} else {
-  updateThemeUI(false);
+  emptyState.classList.remove("show");
 }
 
-// Toggle theme
-
-themeButton.addEventListener("click", () => {
-  const isDark = !document.body.classList.contains("dark");
-
-  updateThemeUI(isDark);
-
-  localStorage.setItem("theme", isDark ? "dark" : "light");
-});
-
 /*==================================================
-    INITIALIZE
+    DESKTOP / MOBILE ROUTINE VISIBILITY
 ==================================================*/
 
-createRoutineCards();
+function showAllDays() {
+  document.querySelectorAll(".day-column").forEach((column) => {
+    column.style.display = "flex";
+  });
+}
 
-/*==================================================
-    MOBILE DAY PILLS
-==================================================*/
-
-function updateMobileView(day) {
-  if (window.innerWidth > 768) return;
-
+function showOnlyDay(day) {
   document.querySelectorAll(".day-column").forEach((column) => {
     const heading = column.querySelector("h2").textContent;
 
     column.style.display = heading === day ? "flex" : "none";
   });
+}
+
+function updateMobileRoutine(day) {
+  if (window.innerWidth > 768) {
+    showAllDays();
+    return;
+  }
+
+  showOnlyDay(day);
 
   dayPills.forEach((pill) => {
     pill.classList.toggle("active", pill.dataset.day === day);
   });
 }
 
-function getDefaultDay() {
-  const weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday"];
+/*==================================================
+    SELECTED DATE
+==================================================*/
 
-  const today = new Date().toLocaleDateString("en-US", {
-    weekday: "long",
-  });
-
-  return weekdays.includes(today) ? today : "Sunday";
+function updateSelectedDate() {
+  selectedDateText.textContent = formatDate(state.selectedDate);
 }
 
-const defaultDay = getDefaultDay();
+/*==================================================
+    DATE STATE
+==================================================*/
 
-updateMobileView(defaultDay);
+function setSelectedDate(date) {
+  state.selectedDate = new Date(date);
 
-dayPills.forEach((pill) => {
-  if (pill.dataset.day === defaultDay) {
-    pill.classList.add("active");
+  state.calendarMonth = state.selectedDate.getMonth();
+  state.calendarYear = state.selectedDate.getFullYear();
+
+  updateSelectedDate();
+
+  updateCurrentView();
+}
+
+/*==================================================
+    MAIN VIEW CONTROLLER
+==================================================*/
+
+function updateCurrentView() {
+  const holiday = getHoliday(state.selectedDate);
+
+  // Holiday ALWAYS has highest priority
+  if (holiday) {
+    showEmptyState(holiday.name, true);
+    return;
   }
 
+  // Weekend only if not holiday
+  if (isWeekend(state.selectedDate)) {
+    showEmptyState("", false);
+
+    return;
+  }
+
+  hideEmptyState();
+
+  updateMobileRoutine(getWeekday(state.selectedDate));
+}
+/*==================================================
+    THEME
+==================================================*/
+
+function updateTheme(isDark) {
+  document.body.classList.toggle("dark", isDark);
+
+  moonIcon.style.display = isDark ? "none" : "block";
+  sunIcon.style.display = isDark ? "block" : "none";
+}
+
+function loadTheme() {
+  const savedTheme = localStorage.getItem("theme");
+
+  updateTheme(savedTheme === "dark");
+}
+
+function toggleTheme() {
+  const isDark = !document.body.classList.contains("dark");
+
+  updateTheme(isDark);
+
+  localStorage.setItem("theme", isDark ? "dark" : "light");
+}
+
+/*==================================================
+    CALENDAR
+==================================================*/
+
+const monthNames = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
+
+function renderCalendar() {
+  calendarDays.innerHTML = "";
+
+  monthYear.textContent = `${monthNames[state.calendarMonth]} ${state.calendarYear}`;
+
+  const firstDay = new Date(
+    state.calendarYear,
+    state.calendarMonth,
+    1,
+  ).getDay();
+
+  const totalDays = new Date(
+    state.calendarYear,
+    state.calendarMonth + 1,
+    0,
+  ).getDate();
+
+  for (let i = 0; i < firstDay; i++) {
+    const empty = document.createElement("button");
+
+    empty.className = "calendar-day empty";
+
+    calendarDays.appendChild(empty);
+  }
+
+  const today = new Date();
+
+  for (let day = 1; day <= totalDays; day++) {
+    const button = document.createElement("button");
+
+    button.className = "calendar-day";
+
+    button.textContent = day;
+
+    if (
+      day === today.getDate() &&
+      state.calendarMonth === today.getMonth() &&
+      state.calendarYear === today.getFullYear()
+    ) {
+      button.classList.add("today");
+    }
+
+    if (
+      day === state.selectedDate.getDate() &&
+      state.calendarMonth === state.selectedDate.getMonth() &&
+      state.calendarYear === state.selectedDate.getFullYear()
+    ) {
+      button.classList.add("selected");
+    }
+
+    button.addEventListener("click", () => {
+      setSelectedDate(new Date(state.calendarYear, state.calendarMonth, day));
+
+      calendarModal.classList.remove("show");
+
+      renderCalendar();
+    });
+
+    calendarDays.appendChild(button);
+  }
+}
+
+/*==================================================
+    CALENDAR CONTROLS
+==================================================*/
+
+function openCalendar() {
+  calendarModal.classList.add("show");
+
+  renderCalendar();
+}
+
+function closeCalendar() {
+  calendarModal.classList.remove("show");
+}
+
+function previousMonth() {
+  state.calendarMonth--;
+
+  if (state.calendarMonth < 0) {
+    state.calendarMonth = 11;
+    state.calendarYear--;
+  }
+
+  renderCalendar();
+}
+
+function nextMonth() {
+  state.calendarMonth++;
+
+  if (state.calendarMonth > 11) {
+    state.calendarMonth = 0;
+    state.calendarYear++;
+  }
+
+  renderCalendar();
+}
+/*==================================================
+    MOBILE DAY PILLS
+==================================================*/
+
+function getNextDateForDay(dayName) {
+  const today = new Date();
+
+  const targetDay = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ].indexOf(dayName);
+
+  let difference = targetDay - today.getDay();
+
+  if (difference < 0) {
+    difference += 7;
+  }
+
+  const nextDate = new Date(today);
+
+  nextDate.setDate(today.getDate() + difference);
+
+  return nextDate;
+}
+
+function handleDayPillClick(day) {
+  dayPills.forEach((pill) => {
+    pill.classList.toggle("active", pill.dataset.day === day);
+  });
+
+  setSelectedDate(getNextDateForDay(day));
+}
+
+/*==================================================
+    WINDOW RESIZE
+==================================================*/
+
+function handleResize() {
+  if (window.innerWidth > 768) {
+    showAllDays();
+    return;
+  }
+
+  if (!isWeekend(state.selectedDate) && !getHoliday(state.selectedDate)) {
+    updateMobileRoutine(getWeekday(state.selectedDate));
+  }
+}
+
+/*==================================================
+    EVENT LISTENERS
+==================================================*/
+
+// Theme
+themeButton.addEventListener("click", toggleTheme);
+
+// Calendar
+calendarButton.addEventListener("click", openCalendar);
+
+prevMonthButton.addEventListener("click", previousMonth);
+
+nextMonthButton.addEventListener("click", nextMonth);
+
+// Close calendar
+calendarModal.addEventListener("click", (event) => {
+  if (event.target === calendarModal) {
+    closeCalendar();
+  }
+});
+
+// Mobile day pills
+dayPills.forEach((pill) => {
   pill.addEventListener("click", () => {
-    updateMobileView(pill.dataset.day);
+    handleDayPillClick(pill.dataset.day);
   });
 });
 
-window.addEventListener("resize", () => {
-  if (window.innerWidth <= 768) {
-    updateMobileView(document.querySelector(".day-pill.active").dataset.day);
-  } else {
-    document.querySelectorAll(".day-column").forEach((column) => {
-      column.style.display = "flex";
-    });
+// Window resize
+window.addEventListener("resize", handleResize);
+
+/*==================================================
+    KEYBOARD SHORTCUTS
+==================================================*/
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") {
+    closeCalendar();
   }
 });
+
+/*==================================================
+    INITIALIZATION
+==================================================*/
+
+renderRoutine();
+
+loadTheme();
+
+setSelectedDate(state.selectedDate);
+
+handleResize();
